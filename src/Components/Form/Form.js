@@ -1,12 +1,16 @@
 import { useState } from "react";
 import s from "./Form.module.css";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+// import PropTypes from "prop-types";
+import { useSelector,useDispatch } from "react-redux";
 import {addContact} from '../../redux/actions'
 
- function Form({ addContact, contacts }) {
+ export default function Form() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+
+  const contacts = useSelector(state =>state.contacts)
+  const dispatch = useDispatch()
+
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -36,7 +40,7 @@ console.log(contacts);
       return;
     }
 
-    addContact(name, number);
+    dispatch(addContact(name, number))
 
     resetForm();
   };
@@ -79,18 +83,8 @@ console.log(contacts);
   );
 }
 
-Form.propTypes = {
-  addContact: PropTypes.func.isRequired,
-  contacts: PropTypes.array.isRequired,
-};
+// Form.propTypes = {
+//   addContact: PropTypes.func.isRequired,
+//   contacts: PropTypes.array.isRequired,
+// };
 
-const mapStateToProps = state =>({
-  contacts: state.contacts
-})
-
-
-const mapDispatchToProps = dispatch =>({
-  addContact: (name, number) => dispatch(addContact(name, number))
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(Form)

@@ -1,12 +1,17 @@
 import ContactListItem from "../ContactListItem/ContactListItem";
 import s from "./ContactList.module.css";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+// import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 
-function ContactList({ contacts }) {
+export default function ContactList() {
 
-  
+  const contacts = useSelector(state =>{
+    return state.contacts.filter(contact =>{
+        return contact.name.toLowerCase().includes(state.filter.toLowerCase())
+      })
+
+  })
 
   return (
     <ul className={s.list}>
@@ -23,22 +28,7 @@ function ContactList({ contacts }) {
 }
 
 
-ContactList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-};
+// ContactList.propTypes = {
+//   contacts: PropTypes.array.isRequired,
+// };
 
-
-
-const makeStateToProps = (state) =>{
-const {contacts, filter} = state
-const filteredContacts = contacts.filter(contact =>{
-// console.log( contact.name);
-  return contact.name.toLowerCase().includes(filter.toLowerCase())
-}
-  
-);
- return{  contacts: filteredContacts}
-}
-
-
-export default connect(makeStateToProps)(ContactList)

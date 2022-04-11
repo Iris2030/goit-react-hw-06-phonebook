@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './App.css';
 import Form from './Components/Form/Form';
 import ContactList from './Components/ContactList/ContactList';
@@ -10,7 +10,8 @@ import s from './App.module.css';
 
 
 
-function App({contacts}) {
+export default function App() {
+const contacts = useSelector(state =>  state.contacts)
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
@@ -32,9 +33,3 @@ function App({contacts}) {
 }
 
 
-const makeStateToProps = (state) =>({
-    contacts: state.contacts,
-
-})
-
-export default connect(makeStateToProps,null)(App)
